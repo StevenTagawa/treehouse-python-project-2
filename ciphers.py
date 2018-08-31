@@ -136,12 +136,12 @@ class Cipher:
         i_o.clear_screen()
         # Ask whether to break the output into 5-character blocks.
         separate = i_o.yes_no(
-                "Would you like the encrypted text to be printed in\n" +
-                "five-character blocks for immproved readability?")
+                "Would you like the encrypted text to be printed in" +
+                "five\n-character blocks for immproved readability?")
         line_break = i_o.yes_no(
-                "Would you like the output to be broken into separate\n" +
-                'lines? (Warning:  This will insert line breaks or "hard\n' +
-                ' returns" into the output.)')
+                "Would you like the output to be broken into separate" +
+                "lines?\n(Warning:  This will insert line breaks or") +
+                '"hard returns"\ninto the output.)')
         new_text = ""
         if separate:
             index = 0
@@ -159,10 +159,11 @@ class Cipher:
         # end if
         # Ignore if the ciphertext is too short to break into multiple
         #  lines.
-        if line_break and (len(self.ciphertext > pos)):
-            new_text = ""
-            # Set line length.
-            pos = 60
+        # Set line length.
+        pos = 60
+        if line_break and (len(self.ciphertext) > pos):
+            # Start with a new line.
+            new_text = "\n"
             while pos < len(self.ciphertext):
                 # Work backwards from the first character after the line
                 #  length, looking for a space.

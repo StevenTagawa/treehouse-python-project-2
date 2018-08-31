@@ -75,7 +75,7 @@ class PolybiusSquare(Cipher):
             # Finally, add 1 to each digit to eliminate any zeroes.
             working_list.append(num + 11)
         # end for
-        # Separate into ten-number lines if the user
+        # Separate into 25-number lines if the user
         #  chooses.  (This method is overridden by this class.)
         self._block_output(working_list)
         return
@@ -111,7 +111,8 @@ class PolybiusSquare(Cipher):
     def _block_output(self, working_list):
         """Internal method that overrides the base class method.
         Formats the ciphertext in groups of 25 two-digit numbers
-        on each line.
+        on each line, if the user chooses.  (May also call the base
+        class method.)
         
         Called by the encrypt method.
         
@@ -124,24 +125,35 @@ class PolybiusSquare(Cipher):
         # Clear the screen.
         i_o.clear_screen()
         working_string = ""
-        # If yes, insert a new line every ten numbers.
-        if i_o.yes_no(
-                "Would you like the encrypted text to be printed in\n" +
-                "25-number lines for immproved readability?"):
-            # Build an output string, inserting a newline character after
-            #  every tenth number.
+        if i_o.yes_no("Would you like the output separated" +
+                              " into two-digit numbers?"):
+            # If yes, check to see if the user wants line breaks.
+            line_break = i_o.yes_no(
+                    "Would you like the encrypted text to be printed" +
+                    "in\n25-number lines for immproved readability?")
+            # Build an output string of two-digit numbers.
+            # If yes, insert a new line every 25 numbers.
             working_string = "\n"
             num = 1
             while len(working_list) > 0:
                 # Pop numbers off the list one at a time until empty.
                 working_string += str(working_list.pop(0)) + " "
-                if num < 25:
-                    num += 1
-                else:
-                    working_string += "\n"
-                    num = 1
+                if line_break:
+                    # Only use if the user wants line breaks.
+                    if num < 25:
+                        num += 1
+                    else:
+                        working_string += "\n"
+                        num = 1
+                    # end if
                 # end if
             # end while
             self.ciphertext = working_string
-            return
-        # end method
+        else:
+            # If no, dump the entire list into ciphertext as one
+            #  string.
+            self.ciphertext = "".join(str(n) for n in working_list)
+            # Then call the original method.
+            super()._block_output()
+        return
+    # end method
