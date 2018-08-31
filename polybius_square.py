@@ -4,10 +4,10 @@ from ciphers import Cipher
 
 ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+
 class PolybiusSquare(Cipher):
     
     """This class implements the Polybius Square Cipher."""
-    
     
     def __init__(self, mode, text):
         """At initialization, the mode of the object is set and the
@@ -22,12 +22,11 @@ class PolybiusSquare(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-    
+    # end method
     
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Polybius Square Cipher"
-    
     
     def decrypt(self):
         """This is the decrypt method.
@@ -50,8 +49,7 @@ class PolybiusSquare(Cipher):
         self._one_time_pad()
         self._intelligent_decrypt()
         return
-    # end function
-    
+    # end method
     
     def encrypt(self):
         """This is the encrypt method.
@@ -81,11 +79,10 @@ class PolybiusSquare(Cipher):
         #  chooses.  (This method is overridden by this class.)
         self._block_output(working_list)
         return
-    # end function
-    
+    # end method
     
     def _block_input(self):
-        """Internal function that overrides the base class method.
+        """Internal method that overrides the base class method.
         Strips out spaces, non-numeric characters, and breaks the
         input apart into a series of two-digit numbers.
         
@@ -109,12 +106,11 @@ class PolybiusSquare(Cipher):
             # end if
         # end for
         return new_list
-    # end function
-    
+    # end method
     
     def _block_output(self, working_list):
-        """Internal function that overrides the base class method.
-        Formats the ciphertext in groups of ten two-digit numbers
+        """Internal method that overrides the base class method.
+        Formats the ciphertext in groups of 25 two-digit numbers
         on each line.
         
         Called by the encrypt method.
@@ -131,7 +127,7 @@ class PolybiusSquare(Cipher):
         # If yes, insert a new line every ten numbers.
         if i_o.yes_no(
                 "Would you like the encrypted text to be printed in\n" +
-                "ten-number lines for immproved readability?"):
+                "25-number lines for immproved readability?"):
             # Build an output string, inserting a newline character after
             #  every tenth number.
             working_string = "\n"
@@ -139,7 +135,7 @@ class PolybiusSquare(Cipher):
             while len(working_list) > 0:
                 # Pop numbers off the list one at a time until empty.
                 working_string += str(working_list.pop(0)) + " "
-                if num < 10:
+                if num < 25:
                     num += 1
                 else:
                     working_string += "\n"
@@ -148,5 +144,4 @@ class PolybiusSquare(Cipher):
             # end while
             self.ciphertext = working_string
             return
-        # end function
-        
+        # end method

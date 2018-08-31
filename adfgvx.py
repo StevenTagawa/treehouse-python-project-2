@@ -1,13 +1,11 @@
-import random
-
 from ciphers import Cipher
 
 CODE = "ADFGVX"
 
+
 class Adfgvx(Cipher):
     
     """This class implements the ADFGVX Cipher."""
-    
     
     def __init__(self, mode, text):
         """At initialization, the mode of the object is set and the
@@ -25,12 +23,12 @@ class Adfgvx(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-    
+    # end method
     
     def __str__(self):
         """Sets plain name for the cipher."""
         return "ADFGVX Cipher"
-    
+    # end method
     
     def decrypt(self):
         """This is the decrypt method.
@@ -72,10 +70,9 @@ class Adfgvx(Cipher):
         working_list = ["" for letter in self.perm_key]
         index = 0
         for pos in range(0, len(self.ciphertext), col_length):
-            working_list[index] = self.ciphertext[pos : pos + col_length]
+            working_list[index] = self.ciphertext[pos:pos + col_length]
             index += 1
         # Rearrange the columns (lists) back into their correct order.
-        input()
         correct_order_list = ["" for letter in self.perm_key]
         for x, pos in enumerate(perm_key_list):
             correct_order_list[int(pos[1:])] = str(working_list[x])
@@ -96,15 +93,15 @@ class Adfgvx(Cipher):
         # Go through the encrypted text two characters at a time.
         for pos in range(0, len(working_string), 2):
             # Turn each bigram back into a letter.
-            bigram = working_string[pos : pos + 2]
-            print(bigram)
+            bigram = working_string[pos:pos + 2]
             self.plaintext += (self.code_dict[bigram])
         # end for
         # Allow the user to enter a one-time pad code, if one was used
         #  to encrpyt the message.
         self._one_time_pad()
         self._intelligent_decrypt()
-        
+        return
+    # end method
     
     def encrypt(self):
         """This is the encrypt method.
@@ -137,7 +134,7 @@ class Adfgvx(Cipher):
         # Pad with nulls if needed to make columns equal length.
         if len(working_string) % len(self.perm_key) > 0:
             # Calculate the number of nulls needed.
-            nulls = (len(self.perm_key) - 
+            nulls = (len(self.perm_key) -
                      (len(working_string) % len(self.perm_key)))
             # For simplicity's sake this function pads the matrix with
             #  V characters.
@@ -170,8 +167,7 @@ class Adfgvx(Cipher):
         #  chooses.
         self._block_output()
         return
-    # end function
-    
+    # end method
     
     def _build_code_dict(self):
         """Builds the dictionary for encoding/decoding letters.
@@ -205,8 +201,8 @@ class Adfgvx(Cipher):
                     self.code_dict[row + col] = alpha_list.pop(0)
             # end for
         # end for
-    # end function
-    
+        return
+    # end method
     
     def _validate(self):
         """Checks encrypted data to ensure that it contains only valid
@@ -232,7 +228,4 @@ class Adfgvx(Cipher):
         # end for
         # If none of the characters failed, return True.
         return msg
-    # end function
-    
-
-        
+    # end method

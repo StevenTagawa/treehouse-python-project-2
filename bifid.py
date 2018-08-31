@@ -1,5 +1,6 @@
 from ciphers import Cipher
 
+
 class Bifid(Cipher):
 
     """This class implements the Bifid Cipher"""
@@ -20,12 +21,12 @@ class Bifid(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-    
+    # end method
     
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Bifid Cipher"
-    
+    # end method
     
     def decrypt(self):
         """This is the decrypt method.
@@ -51,8 +52,6 @@ class Bifid(Cipher):
         # end for
         # Split the string into two lists.
         working_list = [[], []]
-        print(len(working_string))
-        print(len(working_string) // 2)
         working_list[0] = working_string[:len(working_string) // 2]
         working_list[1] = working_string[len(working_string) // 2:]
         for char in range(len(working_list[0])):
@@ -65,8 +64,8 @@ class Bifid(Cipher):
         self._one_time_pad()
         self._intelligent_decrypt()
         return
-    # end function
-        
+    # end method
+    
     def encrypt(self):
         """This is the encrypt method.
         
@@ -99,7 +98,7 @@ class Bifid(Cipher):
         working_list = []
         # Turn the string into a list of two-digit sequences.
         for pos in range(0, len(working_string), 2):
-            working_list.append(working_string[pos : pos + 2])
+            working_list.append(working_string[pos:pos + 2])
         # end for
         # Reset working_string and reuse it.
         working_string = ""
@@ -112,8 +111,7 @@ class Bifid(Cipher):
         # Format if user chooses.
         self._block_output()
         return
-    # end function
-    
+    # end method
     
     def _build_code_dicts(self):
         """Builds the dictionary for encoding/decoding letters.
@@ -139,4 +137,4 @@ class Bifid(Cipher):
             # end if
         # end for
         return
-    # end function
+    # end method

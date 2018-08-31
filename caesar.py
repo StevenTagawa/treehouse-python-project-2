@@ -2,6 +2,7 @@ from ciphers import Cipher
 
 ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+
 class Caesar(Cipher):
     
     """This class implements the Caesar Cipher"""
@@ -19,12 +20,12 @@ class Caesar(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-        
-        
+    # end method
+    
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Caesar Cipher"
-    
+    # end method
     
     def decrypt(self):
         """This is the decrypt method.
@@ -39,14 +40,13 @@ class Caesar(Cipher):
         # To decrypt, just shift all characters back three places.
         for char in self.ciphertext:
             self.plaintext += ALPHANUM[(ALPHANUM.index(char) - 3) % 
-                                        len(ALPHANUM)]
+                                       len(ALPHANUM)]
         # end for
         # Call one time pad and intelligent decrypt.
         self._one_time_pad()
         self._intelligent_decrypt()
         return
     # end function
-    
     
     def encrypt(self):
         """This is the encrypt method.
@@ -70,4 +70,3 @@ class Caesar(Cipher):
         self._block_output()
         return
     # end function
-    

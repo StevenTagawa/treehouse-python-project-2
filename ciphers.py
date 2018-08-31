@@ -5,9 +5,10 @@ ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 NUMBERS = "0123456789"
 PUNCTUATION = """.,?!'":;-"""
 INTEL_DICT = {
-    "FQ": " ", "JX": " ", "QK": " ", "WZ": " ", "ZJ": " ", "GX": "CAP", 
+    "FQ": " ", "JX": " ", "QK": " ", "WZ": " ", "ZJ": " ", "GX": "CAP",
     "HX": ".", "JQ": ",", "PZ": "?", "QG": "!", "QY": "'", "QZ": '"',
     "WQ": ":", "XJ": ";", "ZQ": "-", "ZX": "EOM"}
+
 
 class Cipher:
     
@@ -42,16 +43,14 @@ class Cipher:
         indicate spaces, capital letters and punctuation.
     - _one_time_pad:  Allows the user to encrypt/decrypt using a one-
         time pad.
-        
     """
-
+    
     def decrypt(self):
         """Default decryption method -- placeholder
         
         Must be overridden to be implemented.
         """
         raise NotImplementedError()
-    
     
     def encrypt(self):
         """Default encryption method -- placeholder
@@ -60,9 +59,8 @@ class Cipher:
         """
         raise NotImplementedError()
     
-    
     def _alphabet_from_keyword(self, keyword, include_numbers=False):
-        """Internal function that creates a code alphabet from a
+        """Internal method that creates a code alphabet from a
         keyword.
         
         Arguments:
@@ -92,11 +90,10 @@ class Cipher:
             alphabet_string += NUMBERS
         # end if
         return alphabet_string
-    # end function
-    
+    # end method
     
     def _block_input(self, make_upper=True):
-        """Internal function that strips out any spaces or
+        """Internal method that strips out any spaces or
         non-alphnumeric characters.
         
         Called by the decrypt method.
@@ -121,14 +118,13 @@ class Cipher:
         self.ciphertext = new_text
         # end if
         return
-        # end function
-    
+        # end method
     
     def _block_output(self):
-        """Internal function that outputs encrypted text in five-
-        character blocks, if the user wishes.  Will also insert
-        newlines to keep long strings of blocks from running off
-        the screen.
+        """Internal method that outputs encrypted text in five-
+        character blocks, and can also insert newlines to keep long
+        strings of blocks from running off the screen. if the user
+        wishes.
         
         Called by the encrypt method.
         
@@ -138,37 +134,79 @@ class Cipher:
         """
         # Clear the screen.
         i_o.clear_screen()
-        # If yes, insert a space every five characters.
-        if i_o.yes_no(
+        # Ask whether to break the output into 5-character blocks.
+        separate = i_o.yes_no(
                 "Would you like the encrypted text to be printed in\n" +
-                "five-character blocks for immproved readability?"):
-            # Start with a new line.
-            new_text = "\n"
-            index = 1
+                "five-character blocks for immproved readability?")
+        line_break = i_o.yes_no(
+                "Would you like the output to be broken into separate\n" +
+                'lines? (Warning:  This will insert line breaks or "hard\n' +
+                ' returns" into the output.)')
+        new_text = ""
+        if separate:
+            index = 0
             # Iterate over the ciphertext, five characters at a time.
             for pos in range(0, len(self.ciphertext), 5):
                 # Add a five-character block, plus a space.
                 new_text += self.ciphertext[pos:pos+5] + " "
                 index += 1
                 if index == 10:
-                    # Every ten blocks, add a new line.
-                    new_text += "\n"
                     index = 0
                 # end if
             # end for
-            # Put result in self.ciphertext.
+            # Put result in ciphertext.
+            self.ciphertext = new_text
+        # end if
+        # Ignore if the ciphertext is too short to break into multiple
+        #  lines.
+        if line_break and (len(self.ciphertext > pos)):
+            new_text = ""
+            # Set line length.
+            pos = 60
+            while pos < len(self.ciphertext):
+                # Work backwards from the first character after the line
+                #  length, looking for a space.
+                offset = 0
+                while (
+                        (self.ciphertext[pos + offset] != " ") and
+                        (pos + offset != 0)):
+                    offset -= 1
+                # end while
+                if offset == 0:
+                    # If offset landed on 0, the first character after
+                    #  the line length is a space.  In that case, take
+                    #  the line, insert a newline character, and discard
+                    #  the space.
+                    new_text += self.ciphertext[:pos] + "\n"
+                    self.ciphertext = self.ciphertext[pos+1:]
+                elif pos + offset == 0:
+                    # If offset landed on the negative of pos, there
+                    #  were no spaces within the line.  Just take the
+                    #  entire line.
+                    new_text += self.ciphertext[:pos] + "\n"
+                    self.ciphertext = self.ciphertext[pos:]
+                else:
+                    # Otherwise, take the line up to and including the
+                    #  space.
+                    new_text += self.ciphertext[:pos + offset + 1] + "\n"
+                    self.ciphertext = self.ciphertext[pos + offset + 1:]
+                # end if
+            # end while
+            # When there is less than a full line left, take the entire
+            #  line.
+            new_text += self.ciphertext
+            # Put result back in self.ciphertext.
             self.ciphertext = new_text
         # end if
         return
-    # end function
-    
+    # end method
     
     def _format_plaintext(self):
-        """Internal function that formats a plaintext string for
+        """Internal method that formats a plaintext string for
         encryption.
         
         NOTE that if _intelligent_encrypt has been run on the plaintext,
-        this function will change nothing.
+        this method will change nothing.
         
         Arguments:  none.
         
@@ -186,8 +224,7 @@ class Cipher:
         # Put the result in plaintext.
         self.plaintext = new_string
         return
-    # end function
-    
+    # end method
     
     def _get_keynumber(self, prompt, keylist=None, lbound=None, ubound=None):
         """Gets a keynumber for a cipher from the unser allows the user
@@ -215,7 +252,7 @@ class Cipher:
                 abort = i_o.yes_no(
                     "You did not enter anything.  Do you want to abort?")
                 if abort:
-                    # If yes, drop out of the while loop with key = 
+                    # If yes, drop out of the while loop with key =
                     #  None.
                     break
             else:
@@ -232,7 +269,7 @@ class Cipher:
                 # end try
                 # Check the number against the keylist (but only if
                 #  keylist exists).
-                if keylist and (not keynumber in keylist):
+                if keylist and (keynumber not in keylist):
                     # Loop if there's a keylist and the number isn't in
                     #  it.
                     print("Sorry, that is not a valid keynumber for this",
@@ -249,16 +286,15 @@ class Cipher:
             # end if
         # end while
         return keynumber
-    # end function
+    # end method
     
-        
     def _get_keyword(
         self, prompt, keylist=ALPHABET, max_length=None, min_length=None):
         """Gets a keyword for a cipher from the user, allows the user to
         abort.
         
         The primary difference between _get_keyword and an ordinary 
-        input function like get_string is that _get_keyword ensures 
+        input method like get_string is that _get_keyword ensures 
         that no non-alphabetic characters are in the keyword (spaces
         are stripped) and that the keyword is returned in upper-case.        
         
@@ -318,11 +354,10 @@ class Cipher:
             # end for
         # end while
         return keyword.upper()
-    # end function
-
-
+    # end method
+    
     def _intelligent_decrypt(self):
-        """Internal function that decodes flags in encrypted text.
+        """Internal method that decodes flags in encrypted text.
         
         Arguments:  none.
         
@@ -341,7 +376,7 @@ class Cipher:
             #  looking for special sequences.
             while pos < (len(self.plaintext) - 1):
                 # Grab a two-character slice.
-                text_slice = self.plaintext[pos : pos+2]
+                text_slice = self.plaintext[pos:pos + 2]
                 # Test against special sequences
                 if text_slice in INTEL_DICT:
                     # Find out which one.
@@ -351,9 +386,9 @@ class Cipher:
                         break
                     # If it's for a capital letter...
                     elif INTEL_DICT[text_slice] == "CAP":
-                        # Just add the next character (it's already 
+                        # Just add the next character (it's already
                         #  upper-case).
-                        new_text += self.plaintext[pos+2 : pos+3]
+                        new_text += self.plaintext[pos+2:pos + 3]
                         # Discard the special sequence and the capital
                         #  letter.
                         pos += 3
@@ -380,13 +415,12 @@ class Cipher:
             self.plaintext = new_text
         # end if
         return
-    # end function
-    
+    # end method
     
     def _intelligent_encrypt(self):
-        """Internal function that inserts flags for decryption.
+        """Internal method that inserts flags for decryption.
         
-        If the user opts for intelligent encryption, this function will
+        If the user opts for intelligent encryption, this method will
         insert special sequences for spaces, capital letters, basic
         punctuation (and itself), using bigrams (2-letter combinations)
         that rarely occur in English.
@@ -424,10 +458,9 @@ class Cipher:
             # If no, just exit.
             return
         else:
-            # If yes, 
-            # The first two characters of the decrypted text will be 
-            #  "ZX", which will trigger _intelligent_decrypt when it is
-            #  called.
+            # If yes, The first two characters of the decrypted text
+            # will be "ZX", which will trigger _intelligent_decrypt when
+            # it is called.
             space_sequences = ["FQ", "JX", "QK", "WZ", "ZJ"]
             new_text = "ZX"
             # Go through the message one character at a time.
@@ -437,10 +470,10 @@ class Cipher:
                     # Because spaces are so common, encoding them with a
                     #  single escape sequence could expose the sequence
                     #  to detection, thereby exposing the lengths of
-                    #  individiual words.  To counter this, the function
-                    #  randomly selects one of five special sequences, 
+                    #  individiual words.  To counter this, the method
+                    #  randomly selects one of five special sequences,
                     #  any of which can mark a space.
-                    new_text += space_sequences[random.randint(0,4)]
+                    new_text += space_sequences[random.randint(0, 4)]
                 # First a series of tests for punctuation marks.  Each
                 #  of these inserts a two-character sequence in place of
                 #  the character.
@@ -472,17 +505,16 @@ class Cipher:
                 # end if
             # end for
             # The message also ends with "ZX".  Any characters added
-            #  by the encryption function are nulls and should be
+            #  by the encryption method are nulls and should be
             #  discarded by _intelligent_decrpyt.
             new_text += "ZX"
             self.plaintext = new_text
         # end if
         return
-    # end function
+    # end method
     
-        
     def _one_time_pad(self):
-        """Internal function that implements a one-time pad at the
+        """Internal method that implements a one-time pad at the
         user's option.
         
         Called by both encrypt and decrypt methods.
@@ -499,7 +531,7 @@ class Cipher:
         # Print explanation of the one-time pad.
         if self.mode == "Encrypt":
             print(
-                "One-Time Pad:  In addition to encrypting your message\n", 
+                "One-Time Pad:  In addition to encrypting your message\n",
                 "using the " + self.__str__() + ", Secret Messages! can\n",
                 "first encode your message using a one-time pad.  This\n",
                 "scrambles your message before it is encrypted.  WARNING--\n",
@@ -517,7 +549,7 @@ class Cipher:
         if i_o.yes_no("Do you want to use a one-time pad on this cipher?"):
             done = False
             # Loop until a code is obtained, or user aborts.
-            while done == False:
+            while done is False:
                 # Get the one-time pad code from the user.
                 pad_code = self._get_keyword("Enter a one-time code now:  ")
                 if pad_code == "":
@@ -526,7 +558,7 @@ class Cipher:
                             "message without a one-time pad code?"):
                         # If no one-time pad code, do nothing.
                         return
-                    # end if (function exits)
+                    # end if (method exits)
                 else:
                     done = True
                 # end if
@@ -545,7 +577,7 @@ class Cipher:
             else:
                 mod = -1
             # end if
-            # This function operates on both letters and numbers.
+            # This method operates on both letters and numbers.
             # Loop through the text, performing addition or subtraction
             #  on each letter, using each number in the pad code in
             #  succession.  Note that if the one-time pad code is
@@ -563,5 +595,4 @@ class Cipher:
             self.plaintext = new_string
         # end if
         return
-    #end function
-    
+    # end method

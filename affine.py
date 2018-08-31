@@ -2,6 +2,7 @@ from ciphers import Cipher
 
 ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+
 class Affine(Cipher):
     
     """This class implements the Affine Cipher"""
@@ -22,14 +23,12 @@ class Affine(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-    # end function
-    
+    # end method
     
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Affine Cipher"
-    # end function
-    
+    # end method
     
     def decrypt(self):
         """This is the decrypt method.
@@ -61,8 +60,8 @@ class Affine(Cipher):
         self._one_time_pad()
         self._intelligent_decrypt()
         return
+    # end method
     
-        
     def encrypt(self):
         """This is the encrypt method.
         
@@ -89,13 +88,13 @@ class Affine(Cipher):
         # Convert the plaintext to ciphertext.
         for char in self.plaintext:
             self.ciphertext += self.code_dict[char]
-        # end for        
+        # end for
         # Finally, separate into five-character blocks if the user
         #  chooses.
         self._block_output()
         return
-    # end function
-
+    # end method
+    
     def _build_code_dict(self):
         """Builds the dictionary for encoding/decoding letters.
         
@@ -115,14 +114,13 @@ class Affine(Cipher):
             # end if
         # end for
         return
-    #end function
-    
+    #end method
     
     def _validate(self):
         """The validate method for this cipher just strips any non-
         alphanumeric characters from the ciphertext.  It does not
         reject any string as invalid.
-                
+        
         Arguments:  none.
         
         Returns:  nothing.
@@ -137,5 +135,4 @@ class Affine(Cipher):
         # end for
         self.ciphertext = new_string
         return
-    # end function
-    
+    # end method

@@ -2,6 +2,7 @@ from ciphers import Cipher
 
 ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+
 class Atbash(Cipher):
 
     """This class implements the Atbash Cipher"""
@@ -19,12 +20,12 @@ class Atbash(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-    
+    # end method
     
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Atbash Cipher"
-    
+    # end method
     
     def decrypt(self):
         """This is the decrypt method.
@@ -44,9 +45,8 @@ class Atbash(Cipher):
         self._one_time_pad()
         self._intelligent_decrypt()
         return
-    # end function
-        
-        
+    # end method
+    
     def encrypt(self):
         """This is the encrypt method.
         
@@ -70,5 +70,4 @@ class Atbash(Cipher):
         # Allow the user to see the ciphertext in five-character blocks.
         self._block_output()
         return
-    # end function.
-
+    # end method

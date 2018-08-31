@@ -2,10 +2,10 @@ from ciphers import Cipher
 
 ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
+
 class Keyword_(Cipher):
     
     """This class implements the Keyword Cipher."""
-    
     
     def __init__(self, mode, text):
         """At initialization, the mode of the object is set and the
@@ -22,12 +22,11 @@ class Keyword_(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-    
+    # end method
     
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Keyword Cipher"
-    
     
     def decrypt(self):
         """This is the decrypt method.
@@ -55,8 +54,7 @@ class Keyword_(Cipher):
         self._one_time_pad()
         self._intelligent_decrypt()
         return
-    # end function
-    
+    # end method
     
     def encrypt(self):
         """This is the encrypt method.
@@ -86,5 +84,4 @@ class Keyword_(Cipher):
         #  chooses.
         self._block_output()
         return
-    # end function
-    
+    # end method

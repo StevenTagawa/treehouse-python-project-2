@@ -235,7 +235,7 @@ def _build_options_list(options, allow_keystroke, keystroke_list):
     #  all options to numbers.
     if keystroke_list and keystroke_list[0] == "##":
         for key, option in enumerate(options):
-            output_string += "[" + str(x + 1) + "]" + option
+            output_string += "[" + str(key + 1) + "]" + option
             if key < (len(options) - 1):
                 output_string += ", "
             output_dict[str(key + 1)] = option
@@ -255,23 +255,17 @@ def _build_options_list(options, allow_keystroke, keystroke_list):
             keystroke = None
         # end if
         if keystroke:
-            success = False
-            index = 0
-            while (success == False) and (index < len(option)):
-                # Look through the option string for the keystroke.
-                if ((keystroke == option[index].upper()) or
-                    (keystroke == option[index].lower())):
-                    display = (
-                        option[:index] + "[" + keystroke + "]" +
-                        option[index + 1:])
-                    success = True
-                # end if
-                index += 1
-            # end while
-            # If keystroke wasn't found, add it to the beginning of
-            #  option.
-            if success == False:
+            # Look for the keystroke within the option:
+            found = option.upper().find(keystroke)
+            if found >= 0:
+                # If found, insert the keystroke.
+                display = (
+                    option[0:found] + "[" + keystroke.upper() + "]" + 
+                    option[found + len(keystroke):])
+            else:
+                # If not found, append to the beginning of the option.
                 display = "[" + keystroke + "]" + option
+            # end if
         else:
             # If there is no keystroke for option...
             display = option

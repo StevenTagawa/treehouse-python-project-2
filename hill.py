@@ -9,6 +9,7 @@ from ciphers import Cipher
 #  part of ciphertext strings.
 ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-"
 
+
 class Hill(Cipher):
 
     """This class implements the Hill Cipher"""
@@ -28,12 +29,12 @@ class Hill(Cipher):
             self.ciphertext = text
             self.plaintext = ""
         # end if
-    
+    # end method
     
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Hill Cipher"
-    
+    # end method
     
     def decrypt(self):
         """This is the decrypt method.
@@ -82,7 +83,6 @@ class Hill(Cipher):
         return
     # end function
     
-        
     def encrypt(self):
         """This is the encrypt method.
         
@@ -127,7 +127,6 @@ class Hill(Cipher):
         return
     # end function
     
-    
     def _block_input(self):
         """Internal function that strips out any spaces or
         non-alphanumeric charactes.  Overrides the base class's method
@@ -150,7 +149,6 @@ class Hill(Cipher):
         self.ciphertext = new_text
         return
         # end function
-    
     
     def _invert_matrix(self, mod):
         """Internal function which takes a 3x3 matrix and finds its
@@ -204,7 +202,6 @@ class Hill(Cipher):
         # end for
     # end function
     
-    
     def _matrix_from_keyword(self):
         """Internal function that builds a key matrix from a keyword.
         Called by both encrypt and decrypt functions.  (Decrypt must
@@ -229,7 +226,6 @@ class Hill(Cipher):
         return
     # end function
     
-    
     def _matrix_mult(self, m, t, mod):
         """Internal function which performs matrix multiplication on a
         3x3 matrix and a trigram.
@@ -246,4 +242,3 @@ class Hill(Cipher):
         c3 = ((m[6] * t[0]) + (m[7] * t[1]) + (m[8] * t[2])) % 37
         return c1, c2, c3
     # end function
-    

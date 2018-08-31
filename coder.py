@@ -19,23 +19,21 @@ from transposition import Transposition
 CIPHER_CLASS = {
     "Caesar": Caesar, "Alberti": Alberti, "Affine": Affine, "Atbash":
     Atbash, "Polybius Square": PolybiusSquare, "Transposition":
-    Transposition, "ADFGVX": Adfgvx, "Bifid": Bifid, "Keyword": 
+    Transposition, "ADFGVX": Adfgvx, "Bifid": Bifid, "Keyword":
     Keyword_, "Hill": Hill}
 IMPLEMENTED_CIPHERS = [
-    "ADFGVX", "Affine", "Alberti", "Atbash", "Bifid", "Caesar", "Hill", 
+    "ADFGVX", "Affine", "Alberti", "Atbash", "Bifid", "Caesar", "Hill",
     "Keyword", "Polybius Square", "Transposition"]
-CIPHER_KEYSTROKES = ["A", "F", "L", "S", "B", "C", "I", "K", "P", "T"]
+CIPHER_KEYSTROKES = ["AD", "AF", "AL", "AT", "B", "C", "HI", "K", "P", "T"]
 
 
 def main():
-    
     """The main script function.
     
     Arguments:  none.
-        
+    
     Returns:  nothing.
     """
-    
     # Opening screen.
     i_o.welcome_screen()
     running = True

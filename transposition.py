@@ -1,14 +1,12 @@
-import math
-
 from ciphers import Cipher
 
 ALPHANUM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 GRID_WIDTH = 7
 
+
 class Transposition(Cipher):
     
     """This class implements a Transposition Cipher."""
-    
     
     def __init__(self, mode, text):
         """At initialization, the mode of the object is set and the
@@ -25,11 +23,9 @@ class Transposition(Cipher):
             self.plaintext = ""
         # end if
     
-    
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Transposition Cipher"
-    
     
     def decrypt(self):
         """This is the decrypt method.
@@ -46,7 +42,7 @@ class Transposition(Cipher):
         if xtra:
             grid_height += 1
         working_list = []
-        xtra = len(self.ciphertext) - ((GRID_WIDTH -1) * grid_height)
+        xtra = len(self.ciphertext) - ((GRID_WIDTH - 1) * grid_height)
         # Slice the ciphertext into rows (lists).
         # If the length of the message divides evenly into the number of
         #  columns, all segments will be equal length.  Otherwise, the
@@ -59,7 +55,6 @@ class Transposition(Cipher):
             else:
                 working_list.append(self.ciphertext[:GRID_WIDTH-1])
                 self.ciphertext = self.ciphertext[GRID_WIDTH-1:]
-                xtra -= 1
             # end if
         # end while
         # Add the last partial line to the list.
@@ -77,19 +72,18 @@ class Transposition(Cipher):
                 try:
                     self.plaintext += working_list[col][row]
                 except IndexError:
-                    # ignore errors because not enough characters in
-                    #  column.
+                    # ignore errors of not enough characters in column.
                     pass
                 # end try
             # end for
         # end for
         # Finally, allow for a one-time pad.
+        print(self.plaintext)
         self._one_time_pad()
         self._intelligent_decrypt()
         return
-    # end function
-        
-        
+    # end method
+    
     def encrypt(self):
         """This is the encrypt method.
         
@@ -103,6 +97,7 @@ class Transposition(Cipher):
         self._format_plaintext()
         # Present the option to use a one-time pad.
         self._one_time_pad()
+        print(self.plaintext)
         # Determine the size of the grid to use.
         grid_height = (len(self.plaintext) // GRID_WIDTH)
         if len(self.plaintext) % GRID_WIDTH > 0:
@@ -128,4 +123,4 @@ class Transposition(Cipher):
         #  chooses.
         self._block_output()
         return
-    # end function
+    # end method

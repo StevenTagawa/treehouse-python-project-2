@@ -11,6 +11,7 @@ CHAR_MAP_REV = {"I": "H", "G": "J", "C": "K", "V": "U", "X": "W", "Z": "Y",
                 "O": "0", "F": "4", "S": "5", "B": "6", "A": "7", "M": "8",
                 "R": "9"}
 
+
 class Alberti(Cipher):
     
     """This class implements the Alberti Cipher"""
@@ -30,11 +31,9 @@ class Alberti(Cipher):
         # end if
         self.index = 0
     
-    
     def __str__(self):
         """Sets plain name for the cipher."""
         return "Alberti Cipher"
-    
     
     def decrypt(self):
         """This is the decrypt method.
@@ -50,12 +49,12 @@ class Alberti(Cipher):
             "Please enter the index letter that was used to encrypt this\n" +
             "cipher.  The index letter can be:  a, b, c, d, e, f, g, h, i,\n" +
             "k, l, m, n, o, p, q, r, s, t, v, x, y, z, or &:  ",
-            keylist = MOBILIS.upper(), max_length = 1)
+            keylist=MOBILIS.upper(), max_length=1)
         # Now set the index, which is the offset for the cipher.
         self.index = MOBILIS.find(index_letter.lower())
         # Before doing anything with the ciphertext, strip it of any
         #  spaces (if entered in five-character blocks).
-        self._block_input(make_upper = False)
+        self._block_input()
         # Cycle through the ciphertext, converting into plaintext.
         for char in self.ciphertext:
             # The & will pass this test for capital letters, so exclude
@@ -76,8 +75,7 @@ class Alberti(Cipher):
         self._intelligent_decrypt()
         return
     # end function
-        
-        
+    
     def encrypt(self):
         """This is the encrypt method.
         
@@ -91,8 +89,8 @@ class Alberti(Cipher):
         index_letter = self._get_keyword(
             "Please enter the index letter for this cipher.  The index\n" +
             "letter can be:  a, b, c, d, e, f, g, h, i, k, l, m, n, o,\n" +
-            "p, q, r, s, t, v, x, y, z, or &:  ", keylist = MOBILIS.upper(),
-            max_length = 1)
+            "p, q, r, s, t, v, x, y, z, or &:  ", keylist=MOBILIS.upper(),
+            max_length=1)
         # Now set the index, which is the offset for the cipher.
         self.index = MOBILIS.find(index_letter.lower())
         # Present the option to perform intelligent encryption.
@@ -107,11 +105,11 @@ class Alberti(Cipher):
         self.__preprocess()
         # Now that all letters and numbers are accounted for, encryption
         #  can begin.
-        # First pick a random letter as the first key.
-        key = random.randint(0, 23)
+        # First pick a random letter (NOT number) as the first key.
+        key = random.randint(0, 19)
         self.ciphertext += STABILIS[key]
         # Set a counter to change the key letter.
-        counter = random.randint(5, 15)
+        counter = random.randint(10, 20)
         # Cycle through the plaintext, converting to ciphertext.
         for char in self.plaintext:
             # Find the corresponding cipher character and append it to
@@ -120,9 +118,9 @@ class Alberti(Cipher):
             counter -= 1
             if counter == 0:
                 # Get a new key and reset the counter.
-                key = random.randint(0, 23)
+                key = random.randint(0, 19)
                 self.ciphertext += STABILIS[key]
-                counter = random.randint(5, 15)
+                counter = random.randint(10, 20)
             # end if
         # end for
         # Finally, separate into five-character blocks if the user
@@ -131,6 +129,28 @@ class Alberti(Cipher):
         return
     # end function
     
+    def _block_input(self):
+        """Internal function that strips out any spaces or
+        non-alphnumeric characters.  Overrides the base class method
+        to allow for the & character.
+        
+        Called by the decrypt method.
+        
+        Arguments:  none.
+        
+        Returns:  nothing.
+        """
+        new_text = ""
+        for char in self.ciphertext:
+            # Discard any space and any noncipher characters.
+            if (char.upper() in MOBILIS.upper()):
+                new_text += char
+            # end if
+        # end for
+        self.ciphertext = new_text
+        # end if
+        return
+        # end function
     
     def __postprocess(self):
         """This is the counterpart to __preprocess.  If scans the
@@ -141,6 +161,7 @@ class Alberti(Cipher):
         
         Returns:  nothing.
         """
+        input(self.plaintext)
         new_string = ""
         # Go through the plaintext, scanning for the escape character 4.
         escape = False
@@ -168,7 +189,6 @@ class Alberti(Cipher):
         return
     # end function
     
-    
     def __preprocess(self):
         """This internal function maps missing letters and numbers to
         existing letter/number sequences.
@@ -190,6 +210,7 @@ class Alberti(Cipher):
         # end while
         # Put the result in plaintext.
         self.plaintext = new_string
+        input(self.plaintext)
         return
     # end function
     

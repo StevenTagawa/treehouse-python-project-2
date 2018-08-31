@@ -1,0 +1,1 @@
+This is a test-string for Secret Messages!  "It includes every punctation mark, and symbol, that can be encoded by the Intelligent Encryption and Decryption rountines?" The main symbols that aren't readable are: the slash and the underscore; these could be included in future versions.
