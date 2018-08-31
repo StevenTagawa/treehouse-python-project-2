@@ -78,7 +78,6 @@ class Transposition(Cipher):
             # end for
         # end for
         # Finally, allow for a one-time pad.
-        print(self.plaintext)
         self._one_time_pad()
         self._intelligent_decrypt()
         return
@@ -97,7 +96,6 @@ class Transposition(Cipher):
         self._format_plaintext()
         # Present the option to use a one-time pad.
         self._one_time_pad()
-        print(self.plaintext)
         # Determine the size of the grid to use.
         grid_height = (len(self.plaintext) // GRID_WIDTH)
         if len(self.plaintext) % GRID_WIDTH > 0:

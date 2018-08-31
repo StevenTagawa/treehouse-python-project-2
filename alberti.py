@@ -161,7 +161,6 @@ class Alberti(Cipher):
         
         Returns:  nothing.
         """
-        input(self.plaintext)
         new_string = ""
         # Go through the plaintext, scanning for the escape character 4.
         escape = False
@@ -210,7 +209,6 @@ class Alberti(Cipher):
         # end while
         # Put the result in plaintext.
         self.plaintext = new_string
-        input(self.plaintext)
         return
     # end function
     
