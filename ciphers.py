@@ -140,7 +140,7 @@ class Cipher:
                 "five\n-character blocks for immproved readability?")
         line_break = i_o.yes_no(
                 "Would you like the output to be broken into separate" +
-                "lines?\n(Warning:  This will insert line breaks or") +
+                'lines?\n(Warning:  This will insert line breaks or") +
                 '"hard returns"\ninto the output.)')
         new_text = ""
         if separate:
