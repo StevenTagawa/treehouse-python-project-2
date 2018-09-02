@@ -100,7 +100,7 @@ def input_from_menu(
         output.append(
             "Type [H] for Help, or " + "[Q] to go back.")
     else:
-        output.append("Type [Q] to return to go back.")
+        output.append("Type [Q] to go back.")
     output.append("Press [ENTER] to submit.")
     # Main response loop.
     valid = False
